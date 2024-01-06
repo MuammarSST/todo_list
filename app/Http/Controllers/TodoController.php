@@ -9,11 +9,10 @@ class TodoController extends Controller
     //
     public function index()
     {
-        $todos = Todo::all();
-        $data = [
-            'todos' => $todos
-        ];
-        return view('index', $data);
+        $todos_0 = Todo::all()->where('is_done',0);
+        $todos_1 = Todo::all()->where('is_done',1);
+        
+        return view('index', compact('todos_0','todos_1'));
     }
 
     public function create()
@@ -28,21 +27,21 @@ class TodoController extends Controller
         return redirect('/');
     }
 
-    public function edit(Todo $id)
+    public function edit(Todo $todo)
     {
-        $todo=Todo::findorFail($id);
+        
         return view('edit', compact('todo'));
     }
 
-    public function update(Request $request, Todo $id)
+    public function update(Request $request, Todo $todo)
     {
-        $id->update($request->all());
+        $todo->update($request->all());
         return redirect('/');
     }
 
-    public function delete(Todo $id)
+    public function delete(Todo $todo)
     {
-        $id->delete();
+        $todo->delete();
         return redirect('/');
     }
 }
